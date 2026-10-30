@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moon's Library</title>
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #f8fafc;
@@ -17,469 +15,341 @@
             --text-sub: #64748b;
             --accent: #2563eb;
             --border-color: #e2e8f0;
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
         }
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            -webkit-tap-highlight-color: transparent;
         }
-
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            display: flex;
-            justify-content: center;
             min-height: 100vh;
-            padding: 0;
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 480px;
-            background: var(--card-bg);
-            min-height: 100vh;
-            border-left: 1px solid var(--border-color);
-            border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            position: relative;
+            align-items: center;
+            padding: 20px;
         }
-
-        /* Header */
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
         header {
-            padding: 24px 20px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            border-bottom: 1px solid #f1f5f9;
+            margin-bottom: 20px;
+            padding-top: 10px;
         }
-
-        .brand h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
+        .logo-area h1 {
+            font-size: 24px;
             font-weight: 700;
             color: var(--text-main);
-            letter-spacing: -0.5px;
         }
-
-        .brand p {
-            font-size: 0.8rem;
+        .logo-area p {
+            font-size: 13px;
             color: var(--text-sub);
-            margin-top: 2px;
-            font-weight: 500;
         }
-
-        .user-avatar {
+        .profile-badge {
+            background: #e0e7ff;
+            color: #3730a3;
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #eff6ff;
-            color: var(--accent);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.9rem;
-            border: 1px solid #dbeafe;
+            font-size: 14px;
         }
-
-        /* Search Bar */
-        .search-container {
-            padding: 0 20px 16px;
-        }
-
         .search-box {
-            background: #f1f5f9;
+            position: relative;
+            margin-bottom: 16px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px 12px 40px;
             border-radius: 12px;
-            padding: 10px 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .search-box input:focus {
+            border-color: var(--accent);
+        }
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
             color: var(--text-sub);
         }
-
-        .search-box input {
-            border: none;
-            background: transparent;
-            outline: none;
-            width: 100%;
-            font-size: 0.9rem;
-            color: var(--text-main);
-        }
-
-        /* Categories */
         .categories {
             display: flex;
             gap: 8px;
-            padding: 0 20px 20px;
             overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
             scrollbar-width: none;
         }
-
         .categories::-webkit-scrollbar {
             display: none;
         }
-
-        .cat-pill {
+        .cat-btn {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
             padding: 8px 16px;
             border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            white-space: nowrap;
-            background: #f1f5f9;
+            font-size: 13px;
+            font-weight: 500;
             color: var(--text-sub);
+            white-space: nowrap;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
         }
-
-        .cat-pill.active {
+        .cat-btn.active {
             background: var(--text-main);
             color: #ffffff;
+            border-color: var(--text-main);
         }
-
-        /* Main Content */
-        main {
-            padding: 0 20px 80px;
-            flex-grow: 1;
-        }
-
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .section-header h2 {
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-
-        .count-badge {
-            font-size: 0.75rem;
-            background: #e2e8f0;
-            color: var(--text-sub);
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-weight: 600;
-        }
-
-        /* 2-Column Grid Layout */
-        .books-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px 14px;
-        }
-
-        .book-card {
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        .book-card:active {
-            transform: scale(0.98);
-        }
-
-        /* 2:3 Cover Ratio */
-        .cover-wrapper {
-            width: 100%;
-            aspect-ratio: 2 / 3;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            background: #e2e8f0;
-            position: relative;
-            margin-bottom: 10px;
-            border: 1px solid rgba(0,0,0,0.04);
-        }
-
-        .cover-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .book-info h3 {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--text-main);
-            line-height: 1.3;
-            margin-bottom: 4px;
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .book-info p {
-            font-size: 0.8rem;
-            color: var(--text-sub);
-        }
-
-        /* Empty State (When no stories added yet) */
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            background: #f8fafc;
-            border: 2px dashed #e2e8f0;
-            border-radius: 16px;
-            grid-column: span 2;
-        }
-
-        .empty-state svg {
-            width: 48px;
-            height: 48px;
-            fill: none;
-            stroke: #94a3b8;
-            stroke-width: 1.5;
             margin-bottom: 12px;
         }
-
-        .empty-state h3 {
-            font-size: 1rem;
+        .section-title {
+            font-size: 16px;
             font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 4px;
         }
-
-        .empty-state p {
-            font-size: 0.85rem;
+        .story-count {
+            font-size: 12px;
             color: var(--text-sub);
-            line-height: 1.4;
+            background: var(--border-color);
+            padding: 2px 8px;
+            border-radius: 10px;
         }
-
-        /* Footer / Instruction Note */
-        footer {
-            padding: 20px;
-            text-align: center;
-            font-size: 0.75rem;
-            color: #94a3b8;
-            border-top: 1px solid #f1f5f9;
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
         }
-
-        /* Reader Modal */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .card:active {
+            transform: scale(0.98);
+        }
+        .card-img {
+            width: 100%;
+            aspect-ratio: 2 / 3;
+            background: #e2e8f0;
+            object-fit: cover;
+        }
+        .card-body {
+            padding: 10px;
+        }
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .card-cat {
+            font-size: 11px;
+            color: var(--accent);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
         .modal {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: #ffffff;
-            z-index: 100;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.25s ease;
+            transition: opacity 0.3s;
+            z-index: 100;
         }
-
-        .modal.active {
+        .modal.open {
             opacity: 1;
             pointer-events: auto;
         }
-
-        .modal-header {
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .close-btn {
-            background: #f1f5f9;
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-body {
-            padding: 24px 20px;
-            overflow-y: auto;
-            flex-grow: 1;
-            max-width: 600px;
-            margin: 0 auto;
+        .modal-content {
+            background: #ffffff;
             width: 100%;
+            max-width: 480px;
+            max-height: 85vh;
+            border-radius: 20px 20px 0 0;
+            padding: 24px;
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.1, 1, 0.1, 1);
         }
-
-        .story-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 8px;
+        .modal.open .modal-content {
+            transform: translateY(0);
         }
-
-        .story-meta {
-            font-size: 0.85rem;
-            color: var(--text-sub);
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .story-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.05rem;
-            line-height: 1.8;
-            color: #334155;
-            white-space: pre-line;
+        .close-btn {
+            float: right;
+            background: var(--border-color);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-weight: bold;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <!-- Header -->
+    <div class="container">
         <header>
-            <div class="brand">
+            <div class="logo-area">
                 <h1>Moon's Library</h1>
                 <p>Personal Digital Shelf</p>
             </div>
-            <div class="user-avatar">ML</div>
+            <div class="profile-badge">ML</div>
         </header>
 
-        <!-- Search Bar -->
-        <div class="search-container">
-            <div class="search-box">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <input type="text" id="searchInput" placeholder="Search stories...">
-            </div>
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Search stories...">
         </div>
 
-        <!-- Category Filters -->
-        <div class="categories">
-            <div class="cat-pill active">All Stories</div>
-            <div class="cat-pill">Fiction</div>
-            <div class="cat-pill">Romance</div>
-            <div class="cat-pill">Mystery</div>
-            <div class="cat-pill">Poetry</div>
+        <div class="categories" id="categoryList">
+            <button class="cat-btn active" data-cat="All">All Stories</button>
+            <button class="cat-btn" data-cat="Fiction">Fiction</button>
+            <button class="cat-btn" data-cat="Romance">Romance</button>
+            <button class="cat-btn" data-cat="Mystery">Mystery</button>
+            <button class="cat-btn" data-cat="Poetry">Poetry</button>
         </div>
 
-        <!-- Main Bookshelf Container -->
-        <main>
-            <div class="section-header">
-                <h2>Bookshelf</h2>
-                <span class="count-badge" id="storyCount">0 Stories</span>
-            </div>
+        <div class="section-header">
+            <h2 class="section-title">Bookshelf</h2>
+            <span class="story-count" id="storyCount">0 Stories</span>
+        </div>
 
-            <!-- Grid where books will render -->
-            <div class="books-grid" id="booksGrid">
-                <!-- Javascript auto render korbe -->
-            </div>
-        </main>
-
-        <footer>
-            &copy; 2026 Moon's Library • All stories reserved
-        </footer>
+        <div class="grid" id="storyGrid"></div>
     </div>
 
-    <!-- Full Reader View Modal -->
-    <div class="modal" id="readerModal">
-        <div class="modal-header">
-            <button class="close-btn" id="closeModal">&times;</button>
-            <span style="font-weight: 600; font-size: 0.9rem;">Moon's Reader</span>
-            <div style="width: 36px;"></div>
-        </div>
-        <div class="modal-body">
-            <h1 class="story-title" id="modalTitle">Story Title</h1>
-            <div class="story-meta" id="modalMeta">By Moon • Category</div>
-            <div class="story-text" id="modalContent">
-                Story content will appear here...
-            </div>
+    <div class="modal" id="storyModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeModal">×</button>
+            <h2 id="modalTitle" style="margin-bottom: 8px;"></h2>
+            <p id="modalCat" style="font-size: 12px; color: var(--accent); font-weight: 600; margin-bottom: 16px;"></p>
+            <div id="modalText" style="font-size: 14px; line-height: 1.6; color: #334155;"></div>
         </div>
     </div>
 
-    <!-- JavaScript Data & Logic -->
     <script>
-        /*
-        ================================================================
-        💡 NOTUN GOLPO UPLOAD KORAR NIYOM:
-        Ekhane niche 'storiesData' array te notar golpor information shob
-        braces {} er vitor add korleii auto home page e 2-column format e 
-        sajano hoye jabe!
-        ================================================================
-        */
-
         const storiesData = [
-            /* 
-            -- Example structure when you want to add a story in future --
             {
                 id: 1,
-                title: "The Goldfinch",
-                category: "Fiction",
-                cover: "images/cover1.jpg", // tomak photo path
-                content: "Tomar puro golpo er leka ekhane thakbe..."
+                title: "The Moonlight Secret",
+                category: "Mystery",
+                cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=400&q=80",
+                content: "Eti ekta rohoshyo golpo. Proti ratre cader aloy ekjon odrishyo manushke dekha jeto..."
             },
-            */
+            {
+                id: 2,
+                title: "Aamar Shopno",
+                category: "Fiction",
+                cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80",
+                content: "Jiboner choto choto asha r bhalobasha niye ei golpo ti toiri..."
+            }
         ];
 
-        // Function to render books in Grid
-        function renderBooks() {
-            const grid = document.getElementById('booksGrid');
-            const countBadge = document.getElementById('storyCount');
-            
-            countBadge.innerText = `${storiesData.length} Stories`;
+        const storyGrid = document.getElementById('storyGrid');
+        const storyCount = document.getElementById('storyCount');
+        const searchInput = document.getElementById('searchInput');
+        const categoryList = document.getElementById('categoryList');
+        const storyModal = document.getElementById('storyModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalCat = document.getElementById('modalCat');
+        const modalText = document.getElementById('modalText');
 
-            if (storiesData.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <svg viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                        <h3>No books added yet</h3>
-                        <p>When you add stories to the code, your books will appear here in side-by-side cover pairs.</p>
-                    </div>
-                `;
+        let currentCategory = 'All';
+
+        function renderStories(filter = '', category = 'All') {
+            storyGrid.innerHTML = '';
+            const filtered = storiesData.filter(story => {
+                const matchesSearch = story.title.toLowerCase().includes(filter.toLowerCase());
+                const matchesCat = category === 'All' || story.category === category;
+                return matchesSearch && matchesCat;
+            });
+
+            storyCount.textContent = `${filtered.length} Stories`;
+
+            if (filtered.length === 0) {
+                storyGrid.innerHTML = `<p style="grid-column: span 2; text-align: center; color: var(--text-sub); padding: 20px;">No stories found.</p>`;
                 return;
             }
 
-            grid.innerHTML = storiesData.map(story => `
-                <div class="book-card" onclick="openStory(${story.id})">
-                    <div class="cover-wrapper">
-                        <img src="${story.cover}" alt="${story.title}">
+            filtered.forEach(story => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="${story.cover}" class="card-img" alt="${story.title}">
+                    <div class="card-body">
+                        <div class="card-title">${story.title}</div>
+                        <div class="card-cat">${story.category}</div>
                     </div>
-                    <div class="book-info">
-                        <h3>${story.title}</h3>
-                        <p>${story.category}</p>
-                    </div>
-                </div>
-            `).join('');
+                `;
+                card.addEventListener('click', () => openModal(story));
+                storyGrid.appendChild(card);
+            });
         }
 
-        // Open Reader Modal
-        function openStory(id) {
-            const story = storiesData.find(s => s.id === id);
-            if (!story) return;
-
-            document.getElementById('modalTitle').innerText = story.title;
-            document.getElementById('modalMeta').innerText = `By Moon • ${story.category}`;
-            document.getElementById('modalContent').innerText = story.content;
-            document.getElementById('readerModal').classList.add('active');
+        function openModal(story) {
+            modalTitle.textContent = story.title;
+            modalCat.textContent = story.category;
+            modalText.textContent = story.content;
+            storyModal.classList.add('open');
         }
 
-        // Close Reader Modal
-        document.getElementById('closeModal').addEventListener('click', () => {
-            document.getElementById('readerModal').classList.remove('active');
+        closeModal.addEventListener('click', () => {
+            storyModal.classList.remove('open');
         });
 
-        // Initialize Render
-        renderBooks();
+        storyModal.addEventListener('click', (e) => {
+            if (e.target === storyModal) {
+                storyModal.classList.remove('open');
+            }
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            renderStories(e.target.value, currentCategory);
+        });
+
+        categoryList.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                currentCategory = e.target.getAttribute('data-cat');
+                renderStories(searchInput.value, currentCategory);
+            }
+        });
+
+        renderStories();
     </script>
 </body>
 </html>
